@@ -1,0 +1,492 @@
+openapi: 3.0.0
+info:
+  title: Greenhouse API
+  version: 1.0.0
+  description: API for greeen house. Database consists of rooms and flowers. Each flower has id, name, price, watering date, watering interval and id of room it belongs to
+  contact:
+    name: Saibaken
+    url: https://github.com/Saibaken
+servers:
+  - url: http://u8191092-lab3.local/v1
+tags:
+  - name: Rooms
+    description: Rooms in warehouse where flowers are stored
+  - name: Flowers
+    description: Operations with flowers
+paths:
+  /rooms:
+    get:
+      tags:
+        - "Rooms"
+      summary: Get all rooms
+      operationId: getRooms
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rooms/{id}:
+    get:
+      tags:
+        - "Rooms"
+      summary: Get room by id
+      operationId: getRoomById
+      parameters:
+        - name: id
+          in: path
+          description: Id of room
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rooms/{id}/flowers:
+    get:
+      tags:
+        - "Rooms"
+        - "Flowers"
+      summary: Get all flowers in specific room
+      operationId: getFlowersInRoom
+      parameters:
+        - name: id
+          in: path
+          description: Id of room
+          required: true
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+        - name: page size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort by field
+          required: false
+          schema:
+            type: string
+            enum:
+              - id
+              - name
+              - price
+              - watering_date
+              - watering_interval
+        - name: order
+          in: query
+          description: Sort order
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /flowers:
+    get:
+      tags:
+        - "Flowers"
+      summary: Get all flowers
+      operationId: getFlowers
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+        - name: page size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+        - name: field
+          in: query
+          description: Name of field to sort by
+          required: false
+          schema:
+            type: string
+            enum:
+              - id
+              - name
+              - price
+              - watering_date
+              - watering_interval
+              - room_id
+        - name: order
+          in: query
+          description: Order of sorting
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flower'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - "Flowers"
+      summary: Add flower
+      operationId: addFlower
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flower'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /flowers/{id}:
+    get:
+      tags:
+        - "Flowers"
+      summary: Get flower by id
+      operationId: getFlowerById
+      parameters:
+        - name: id
+          in: path
+          description: Id of flower
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '404':
+          description: Flower not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - "Flowers"
+      summary: Update flower
+      operationId: updateFlower
+      parameters:
+        - name: id
+          in: path
+          description: Id of flower
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Flower'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Flower not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+        - "Flowers"
+      summary: Update specific fields of flower
+      operationId: updateFlower
+      parameters:
+        - name: id
+          in: path
+          description: Id of flower
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Name of flower
+          required: false
+          schema:
+            type: string
+        - name: price
+          in: query
+          description: Price of flower
+          required: false
+          schema:
+            type: integer
+        - name: watering_time
+          in: query
+          description: Last time of watering
+          required: false
+          schema:
+            type: number
+        - name: watering_interval
+          in: query
+          description: Watering interval of flower
+          required: false
+          schema:
+            type: number
+        - name: room_id
+          in: query
+          description: Id of room where flower should be
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Flower not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - "Flowers"
+      summary: Delete flower by id
+      operationId: deleteFlowerById
+      parameters:
+        - name: id
+          in: path
+          description: Id of flower
+          required: true
+          schema:
+            type: object
+            properties:
+              data:
+                enum:
+                  - null
+                type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '404':
+          description: Flower not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /flowers/{id}/water:
+    post:
+      tags:
+        - "Flowers"
+      summary: Water flower by id on current date and time
+      operationId: waterFlower
+      parameters:
+        - name: id
+          in: path
+          description: Id of flower
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flower'
+        '404':
+          description: Flower not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Flower:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: integer
+          format: int64
+        watering_time:
+          type: string
+          format: date-time
+        watering_interval:
+          type: integer
+          items:
+            type: string
+            format: date-time
+        room_id:
+          type: integer
+          format: int64
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        flowers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Flower'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          enum:
+            - 400
+            - 404
+            - 500
+        message:
+          type: string
