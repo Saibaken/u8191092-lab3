@@ -486,6 +486,8 @@ components:
           format: int32
           enum:
             - 400
+            - 401
+            - 403
             - 404
             - 500
         message:
