@@ -257,12 +257,7 @@ paths:
           description: Id of flower
           required: true
           schema:
-            type: object
-            properties:
-              data:
-                enum:
-                  - null
-                type: string
+            type: integer
       responses:
         '200':
           description: Successful operation
