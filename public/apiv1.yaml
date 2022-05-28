@@ -14,133 +14,6 @@ tags:
   - name: Flowers
     description: Operations with flowers
 paths:
-  /rooms:
-    get:
-      tags:
-        - "Rooms"
-      summary: Get all rooms
-      operationId: getRooms
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Room'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /rooms/{id}:
-    get:
-      tags:
-        - "Rooms"
-      summary: Get room by id
-      operationId: getRoomById
-      parameters:
-        - name: id
-          in: path
-          description: Id of room
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Room'
-        '404':
-          description: Room not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /rooms/{id}/flowers:
-    get:
-      tags:
-        - "Rooms"
-        - "Flowers"
-      summary: Get all flowers in specific room
-      operationId: getFlowersInRoom
-      parameters:
-        - name: id
-          in: path
-          description: Id of room
-          required: true
-          schema:
-            type: integer
-        - name: page
-          in: query
-          description: Page number
-          required: false
-          schema:
-            type: integer
-        - name: page size
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-        - name: sort
-          in: query
-          description: Sort by field
-          required: false
-          schema:
-            type: string
-            enum:
-              - id
-              - name
-              - price
-              - watering_date
-              - watering_interval
-        - name: order
-          in: query
-          description: Sort order
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Flower'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Room not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /flowers:
     get:
       tags:
@@ -310,7 +183,7 @@ paths:
       tags:
         - "Flowers"
       summary: Update specific fields of flower
-      operationId: updateFlower
+      operationId: updateFlowerFields
       parameters:
         - name: id
           in: path
@@ -396,7 +269,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flower'
+                type: object
+                properties:
+                  data:
+                    type: string
+                    nullable: true
         '404':
           description: Flower not found
           content:
