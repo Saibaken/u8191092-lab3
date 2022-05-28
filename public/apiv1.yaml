@@ -14,6 +14,27 @@ tags:
   - name: Flowers
     description: Operations with flowers
 paths:
+  /rooms:
+    get:
+      summary: Get all rooms
+      operationId: getRooms
+      tags:
+        - Rooms
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '404':
+          description: Not found any rooms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /flowers:
     get:
       tags:
