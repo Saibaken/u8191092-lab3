@@ -4,13 +4,23 @@ namespace App\Http\APIV1\Room\Controllers;
 
 use App\Domain\Rooms\Actions\GetAllRooms;
 use App\Http\APIV1\Room\Resources\RoomCollection;
+use App\Http\APIV1\Common\ErrorJsonResource;
 use App\Http\Controllers\Controller;
 
 class RoomController extends Controller
 {
     public function getAll()
     {
+        $result = [];
+        $return = null;
         $action = new GetAllRooms();
-        return new RoomCollection($action->execute());
+        try {
+            $result['data'] = $action->execute();
+            $return = (new RoomCollection($result['data']))->response()->setStatusCode(200);
+        }
+        catch (\Exception $e) {
+            $return['error'] = new ErrorJsonResource($e);
+        }
+        return $return;
     }
 }
