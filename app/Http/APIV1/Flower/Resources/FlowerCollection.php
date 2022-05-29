@@ -15,8 +15,9 @@ class FlowerCollection extends JsonResource
      */
     public function toArray($request)
     {
+        $pagination = parent::toArray($request);
         return [
-            'data' => parent::toArray($request),
+            'data' => $pagination['data'],
             'meta' => [
                 'pagination' => [
                     'total' => $this->resource->total(),
@@ -25,6 +26,9 @@ class FlowerCollection extends JsonResource
                     'current_page' => $this->resource->currentPage(),
                     'total_pages' => $this->resource->lastPage(),
                 ],
+                'links' => $pagination['links'],
+                'prev_page' => $this->resource->previousPageUrl(),
+                'next_page' => $this->resource->nextPageUrl(),
             ],
         ];
     }
