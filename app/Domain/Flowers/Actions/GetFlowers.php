@@ -7,8 +7,12 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class GetFlowers
 {
-    public function execute(): LengthAwarePaginator
+    public function execute(array $request): LengthAwarePaginator
     {
-        return Flower::query()->paginate(10);
+        $page = $request['page'] ?? 1;
+        $pageSize = $request['page_size'] ?? 10;
+        $field = $request['field'] ?? 'id';
+        $order = $request['order'] ?? 'asc';
+        return Flower::orderBy($field, $order)->paginate($pageSize, ['*'], 'page', $page);
     }
 }

@@ -48,7 +48,7 @@ paths:
           required: false
           schema:
             type: integer
-        - name: page size
+        - name: page_size
           in: query
           description: Number of items per page
           required: false
@@ -83,6 +83,7 @@ paths:
             application/json:
               schema:
                 type: array
+                description: Paginated list of flowers
                 items:
                   $ref: '#/components/schemas/Flower'
         '500':

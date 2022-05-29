@@ -8,7 +8,9 @@ use App\Http\APIV1\Room\Resources\RoomResource;
 use App\Http\APIV1\Flower\Requests\AddFlowerRequest;
 use App\Http\APIV1\Flower\Requests\UpdateFlowerFieldsRequest;
 use App\Http\APIV1\Flower\Requests\UpdateFlowerRequest;
+use App\Http\APIV1\Flower\Requests\GetFlowersRequest;
 use App\Domain\Flowers\Actions;
+use App\Domain\Flowers\Actions\GetFlowers;
 use App\Http\APIV1\Common\EmptyJsonResource;
 use App\Http\Controllers\Controller;
 
@@ -32,10 +34,10 @@ class FlowerController extends Controller
         return new FlowerResource($action->execute($id));
     }
 
-    public function getAll()
+    public function getAll(GetFlowersRequest $request)
     {
-        $action = new Actions\GetFlowers();
-        return new FlowerCollection($action->execute());
+        $action = new GetFlowers();
+        return new FlowerCollection($action->execute($request->validated()));
     }
 
     public function update(int $id, UpdateFlowerRequest $request)
