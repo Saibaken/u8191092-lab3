@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('flowers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('price');
+            $table->integer('price');
             $table->dateTime('watering_time');
             $table->integer('watering_interval');
             $table->foreignId('room_id')->constrained();
