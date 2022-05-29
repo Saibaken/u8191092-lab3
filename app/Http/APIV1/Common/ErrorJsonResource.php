@@ -9,8 +9,8 @@ class ErrorJsonResource extends JsonResource
     public function toArray($request)
     {
         return [
-                'code' => $this->getCode(),
-                'message' => $this->getMessage(),
+                'code' => $this['code'],
+                'message' => $this['message'],
         ];
     }
 }
