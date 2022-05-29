@@ -121,6 +121,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal server error
           content:
@@ -183,6 +189,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Flower not found
           content:
@@ -244,6 +256,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Flower'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Flower not found
           content:
