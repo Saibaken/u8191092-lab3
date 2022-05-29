@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Flower;
-use App\Models\Room;
+use App\Domain\Flowers\Models\Flower;
+use App\Domain\Rooms\Models\Room;
 
 class DatabaseSeeder extends Seeder
 {
