@@ -17,12 +17,6 @@ uses(DatabaseTransactions::class);
 
 uses()->group('flowers');
 
-// beforeAll(function () {
-//     Artisan::call('migrate:rollback');
-//     Artisan::call('migrate');
-//     Artisan::call('db:seed');
-// });
-
 test('Create a flower', function () {
     $flower = Flower::factory()->raw();
     $response = $this->postJson('/api/flowers', [
@@ -509,7 +503,6 @@ test('Get flower that does not exist by id', function() {
     $flower = Flower::factory()->create();
     $flower->delete();
     $response = $this->getJson("/api/flowers/{$flower->id}");
-    echo $response->getContent();
     $response->assertStatus(404)->assertJson([
         'data' => [
             'code' => 404,
