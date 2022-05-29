@@ -33,7 +33,7 @@ class FlowerController extends Controller
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
+            $return = new ErrorJsonResource($ex);
             $return->response()->setStatusCode(500);
         }
         return $return;
@@ -54,8 +54,8 @@ class FlowerController extends Controller
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(500);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
         }
         return $return;
         
@@ -66,27 +66,31 @@ class FlowerController extends Controller
         $result = [];
         $return = [];
         $action = new Actions\GetFlowerById();
+        $code = 200;
         try {
             $result['data'] = $action->execute($id);
-            $return = (new FlowerResource($result['data']))->response()->setStatusCode(200);
+            $return = new FlowerResource($result['data']);
         }
         catch (ModelNotFoundException $e) {
             $ex = ['code' => 404, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(404);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(404);                // Не совсем понимаю почему здесь не работает setStatusCode
+            $code = 404;
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(500);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
+            $code = 500;
         }
-        return $return;
+
+        return response()->json($return)->setStatusCode($code);      
     }
 
     public function getAll(GetFlowersRequest $request)
     {
         $result = [];
-        $return = null;
+        $return = [];
         $action = new Actions\GetFlowers();
         try {
             $result['data'] = $action->execute($request->validated());
@@ -94,12 +98,13 @@ class FlowerController extends Controller
         }
         catch (ModelNotFoundException $e) {
             $ex = ['code' => 404, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
+            $return = new ErrorJsonResource($ex);
             $return->response()->setStatusCode(404);
         }
         catch (\Exception $e) {
-            $return['error'] = $e->getMessage();
-            $return['error']->response()->setStatusCode(500);
+            $ex = ['code' => 500, 'message' => $e->getMessage()];
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
         }
         return $return;
     }
@@ -115,13 +120,13 @@ class FlowerController extends Controller
         }
         catch (ModelNotFoundException $e) {
             $ex = ['code' => 404, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(404);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(404);
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(500);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
         }
         return $return;
     }
@@ -137,13 +142,13 @@ class FlowerController extends Controller
         }
         catch (ModelNotFoundException $e) {
             $ex = ['code' => 404, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(404);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(404);
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(500);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
         }
         return $return;
     }
@@ -159,13 +164,13 @@ class FlowerController extends Controller
         }
         catch (ModelNotFoundException $e) {
             $ex = ['code' => 404, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(404);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(404);
         }
         catch (\Exception $e) {
             $ex = ['code' => 500, 'message' => $e->getMessage()];
-            $return['error'] = new ErrorJsonResource($ex);
-            $return['error']->response()->setStatusCode(500);
+            $return = new ErrorJsonResource($ex);
+            $return->response()->setStatusCode(500);
         }
         return $return;
     }

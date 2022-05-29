@@ -15,12 +15,14 @@ class FlowerResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'price' => $this->price,
-            'watering_time' => $this->watering_time,
-            'watering_interval' => $this->watering_interval,
-            'room_id' => $this->room_id,
+            'data' => [
+                'id' => $this->id,
+                'name' => $this->name,
+                'price' => $this->price,
+                'watering_time' => $this->watering_time,
+                'watering_interval' => $this->watering_interval,
+                'room_id' => $this->room_id,
+            ]
         ];
     }
 }
